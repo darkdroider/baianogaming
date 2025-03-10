@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Baiano Gaming
 // @namespace    https://github.com/darkdroider
-// @version      2.3
+// @version      2.4
 // @description  Facilitar os bagulho
 // @author       Baiano Gaming
 // @match        https://giveaway.su/*
