@@ -8,6 +8,7 @@
 // @match        https://steamcommunity.com/openid/login*
 // @match        https://giveaway.su/giveaway/view/*
 // @match        https://discord.com/oauth2/authorize*
+// @match        https://discord.com/invite/*
 // @grant        none
 // @downloadURL  https://github.com/darkdroider/baianogaming/raw/main/baiano-gaming.user.js
 // @updateURL    https://github.com/darkdroider/baianogaming/raw/main/baiano-gaming.user.js
@@ -115,5 +116,30 @@
         }
 
         authorizeDiscord();
+    }
+
+    // Automação para aceitar convites do Discord
+    if (window.location.hostname === "discord.com" && window.location.pathname.includes("/invite/")) {
+        function acceptInvite() {
+            setTimeout(() => {
+                let acceptButton = document.querySelector('button.marginTop40_fd297e.button__921c5.button__201d5.lookFilled__201d5.colorBrand__201d5.sizeLarge__201d5.fullWidth__201d5.grow__201d5');
+                if (acceptButton) {
+                    console.log("Clicando no botão Aceitar convite");
+                    acceptButton.click();
+                    setTimeout(() => {
+                        if (document.contains(acceptButton)) {
+                            console.log("Botão ainda presente. Recarregando em 7s...");
+                            setTimeout(() => {
+                                location.reload();
+                            }, 7000);
+                        } else {
+                            console.log("Convite aceito. Função encerrada.");
+                        }
+                    }, 3000);
+                }
+            }, 2000);
+        }
+
+        acceptInvite();
     }
 })();
