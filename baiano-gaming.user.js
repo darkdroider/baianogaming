@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Baiano Gaming
 // @namespace    https://github.com/darkdroider
-// @version      4
+// @version      5
 // @description  Facilitar os bagulho
 // @author       Baiano Gaming
 // @match        https://giveaway.su/*
@@ -110,9 +110,9 @@
                     console.log("Botão Autorizar não encontrado. Recarregando...");
                     setTimeout(() => {
                         location.reload();
-                    }, 10000); // Recarrega a cada 5s até encontrar o botão
+                    }, 11000); // Recarrega a cada 11s até encontrar o botão
                 }
-            }, 7000);
+            }, 10000);
         }
 
         authorizeDiscord();
