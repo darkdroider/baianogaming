@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Baiano Gaming
 // @namespace    https://github.com/darkdroider
-// @version      5.1
+// @version      5.2
 // @description  Facilitar os bagulho
 // @author       Baiano Gaming
 // @match        https://giveaway.su/*
@@ -57,7 +57,6 @@
         }, 2000);
     }
 
-    // Função para verificar o texto "Please link Discord account" e atualizar a página se necessário
     function checkDiscordText() {
         let pageText = document.body.innerText || document.body.textContent;
         if (pageText.includes("Please link Discord account")) {
@@ -70,18 +69,17 @@
         }
     }
 
-    // Função para clicar apenas nos botões de refresh dentro dos action IDs
     function clickRefreshButtons() {
-        let rows = document.querySelectorAll('#actions tbody tr'); // Seleciona todas as linhas da tabela de ações
+        let rows = document.querySelectorAll('#actions tbody tr');
         let maxClicks = 12;
         let index = 0;
 
         function clickNextButton() {
             if (index < maxClicks && index < rows.length) {
-                let button = rows[index].querySelector('button.btn.btn-xs.btn-default'); // Seleciona o botão dentro da linha
+                let button = rows[index].querySelector('button.btn.btn-xs.btn-default');
                 let icon = button ? button.querySelector('i.glyphicon.glyphicon-refresh') : null;
 
-                if (button && icon && button.closest('tr[data-action-id]')) { // Garante que está dentro da tabela correta
+                if (button && icon && button.closest('tr[data-action-id]')) {
                     console.log(`Clicando no botão de refresh na linha ${index}`);
                     button.click();
                 } else {
@@ -89,7 +87,7 @@
                 }
 
                 index++;
-                setTimeout(clickNextButton, Math.random() * (550 - 300) + 300); // Tempo aleatório entre 0.3s e 0.55s
+                setTimeout(clickNextButton, Math.random() * (550 - 300) + 300);
             } else {
                 console.log("Todos os botões de refresh foram clicados ou atingimos o limite de 12.");
             }
@@ -101,18 +99,24 @@
     // Automação para autorizar no Discord
     if (window.location.hostname === "discord.com" && window.location.pathname.includes("/oauth2/authorize")) {
         function authorizeDiscord() {
-            setTimeout(() => {
+            let clickCount = 0;
+            function clickButton() {
                 let authorizeButton = document.querySelector('button.button__201d5.lookFilled__201d5.colorBrand__201d5.sizeMedium__201d5.grow__201d5');
                 if (authorizeButton) {
-                    console.log("Clicando no botão Autorizar no Discord");
+                    console.log(`Clicando no botão Autorizar no Discord (${clickCount + 1})`);
                     authorizeButton.click();
+                    clickCount++;
+                    if (clickCount < 5) { // Clica 5 vezes no total
+                        setTimeout(clickButton, 1000);
+                    }
                 } else {
                     console.log("Botão Autorizar não encontrado. Recarregando...");
                     setTimeout(() => {
                         location.reload();
-                    }, 11000); // Recarrega a cada 11s até encontrar o botão
+                    }, 7000);
                 }
-            }, 10000);
+            }
+            setTimeout(clickButton, 5000);
         }
 
         authorizeDiscord();
